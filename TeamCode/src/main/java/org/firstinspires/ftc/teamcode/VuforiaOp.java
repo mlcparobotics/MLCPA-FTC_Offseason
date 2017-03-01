@@ -6,8 +6,10 @@ import com.vuforia.Vuforia;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
+import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
 /**
@@ -37,7 +39,13 @@ public class VuforiaOp extends LinearOpMode {
 
         while (opModeIsActive()){
             for (VuforiaTrackable beac : beacons){
+                OpenGLMatrix pose = ((VuforiaTrackableDefaultListener) beac.getListener()).getPose();
 
+                if(pose != null){
+                    VectorF translation = pose.getTranslation();
+
+                    telemetry.addData(beac.getName() + "-Translation", translation);
+                }
             }
         }
     }
