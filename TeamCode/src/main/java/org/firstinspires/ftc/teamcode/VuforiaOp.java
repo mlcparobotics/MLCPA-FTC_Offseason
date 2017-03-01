@@ -45,8 +45,13 @@ public class VuforiaOp extends LinearOpMode {
                     VectorF translation = pose.getTranslation();
 
                     telemetry.addData(beac.getName() + "-Translation", translation);
+
+                    double degreestoTurn = Math.toDegrees(Math.atan2(translation.get(1), translation.get(2)));
+
+                    telemetry.addData(beac.getName() + "-Degrees", degreestoTurn);
                 }
             }
+            telemetry.update();
         }
     }
 }
