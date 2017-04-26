@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.RobotLog;
-import com.vuforia.Trackable;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
@@ -26,9 +25,11 @@ public class Vuforia extends LinearOpMode{
     OpenGLMatrix LastKnownLocation;
     OpenGLMatrix PhoneLocation;
     VuforiaLocalizer Vuforia;
+    OpenGLMatrix RobotLocationTransform;
     //Attempt at creating a constructor(?I think thats what they're called) so I could call this when needed
     //static final VuforiaLocalizer.CameraDirection CAMERDIREC = VuforiaLocalizer.CameraDirection.BACK;
     public static final String TAG = "Vuforia";
+
 
     @Override
     public void runOpMode() throws InterruptedException{
@@ -42,7 +43,7 @@ public class Vuforia extends LinearOpMode{
         float mmPerInch        = 25.4f;
         float mmBotWidth       = 18 * mmPerInch;
         float mmFTCFieldWidth  = (12*12 - 2) * mmPerInch;
-
+        //Load the targets from the asset folder
         VuforiaTrackable Wheels = Beacon_Targets.get(0);
         Wheels.setName("Wheels");
         VuforiaTrackable Legos = Beacon_Targets.get(2);
@@ -62,24 +63,39 @@ public class Vuforia extends LinearOpMode{
 
         final float PHONE_FROM_CENTER_OF_ROBOT = 85;
         final float PHONE_FROM_GROUND = 85;
-        final float PHONE_OFF_FROM_CENTER_OF_ROBOT = 0;
+        final float PHONE_OFF_FROM_CENTERLINE_OF_ROBOT = 0;
 
 
 
-        OpenGLMatrix phoneLocationOnRobot = OpenGLMatrix.translation(PHONE_FROM_CENTER_OF_ROBOT, PHONE_FROM_GROUND, PHONE_OFF_FROM_CENTER_OF_ROBOT).multiplied(Orientation.getRotationMatrix(AxesReference.EXTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES, 0, 0, 0));
+        OpenGLMatrix phoneLocationOnRobot = OpenGLMatrix.translation(PHONE_FROM_CENTER_OF_ROBOT, PHONE_FROM_GROUND, PHONE_OFF_FROM_CENTERLINE_OF_ROBOT).multiplied(Orientation.getRotationMatrix(AxesReference.EXTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES, 0, 0, 0));
         RobotLog.ii(TAG, "phone=%s", Format(phoneLocationOnRobot));
         //Failed Attempt, didn't work due to some unresolved issue
         //OpenGLMatrix PhoneLocationOnRobot = OpenGLMatrix.translation(PHONE_FROM_CENTER, PHONE_FROM_GROUND, PHONE_OFF_FROM_CENTER).multiplied(Orientation.getRotationMatrix(AxesReference.EXTRINSIC,AxesOrder.XYZ, AngleUnit.DEGREES, ));
         //Activate data necessary to identify targets
         Beacon_Targets.activate();
         telemetry.addData("Press Start To Begin", "><");
+        telemetry.update();
+
 
         while (opModeIsActive()){
-            for (VuforiaTrackable Targets : Beacon_Targets){
+            for (VuforiaTrackable Targets : Beacon_Targets) {
+                OpenGLMatrix robotLocationTransform = ((VuforiaTrackableDefaultListener) Targets.getListener()).getUpdatedRobotLocation();
+                if (robotLocationTransform != null) {
+                    LastKnownLocation = robotLocationTransform;
+                }
 
-                telemetry.addData(Targets.getName(), ((VuforiaTrackableDefaultListener)Targets.getListener()).isVisible() ? "Visible": OpenGLMatrix robotLocationTransform = ((VuforiaTrackableDefaultListener)Targets.getListener()).getUpdatedRobotLocation();
-                if ()
+
             }
+            //Provides Feedback over robots Location
+            if (LastKnownLocation != null){
+                RobotLog.vv(TAG, "robot=%s", Format(LastKnownLocation));
+                telemetry.addData("Pos", Format(LastKnownLocation));
+                telemetry.update();
+            }else {
+                telemetry.addData("Pos", "Unknown");
+                telemetry.update();
+            }
+
 
 
 
