@@ -58,14 +58,15 @@ public class Vuforia extends LinearOpMode{
         OpenGLMatrix LegosLocationOnField = OpenGLMatrix.translation(-mmFTCFieldWidth/2,0,0).multiplied(Orientation.getRotationMatrix(AxesReference.EXTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES, 0,0,0));
         Legos.setLocation(LegosLocationOnField);
         RobotLog.ii(TAG, "Legos = $s", Format(LegosLocationOnField));
+        param.useExtendedTracking = false;
 
-        final float PHONE_FROM_CENTER = 85;
+        final float PHONE_FROM_CENTER_OF_ROBOT = 85;
         final float PHONE_FROM_GROUND = 85;
-        final float PHONE_OFF_FROM_CENTER = 0;
+        final float PHONE_OFF_FROM_CENTER_OF_ROBOT = 0;
 
 
 
-        OpenGLMatrix phoneLocationOnRobot = OpenGLMatrix.translation(PHONE_FROM_CENTER, PHONE_FROM_GROUND, PHONE_OFF_FROM_CENTER).multiplied(Orientation.getRotationMatrix(AxesReference.EXTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES, 0, 0, 0));
+        OpenGLMatrix phoneLocationOnRobot = OpenGLMatrix.translation(PHONE_FROM_CENTER_OF_ROBOT, PHONE_FROM_GROUND, PHONE_OFF_FROM_CENTER_OF_ROBOT).multiplied(Orientation.getRotationMatrix(AxesReference.EXTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES, 0, 0, 0));
         RobotLog.ii(TAG, "phone=%s", Format(phoneLocationOnRobot));
         //Failed Attempt, didn't work due to some unresolved issue
         //OpenGLMatrix PhoneLocationOnRobot = OpenGLMatrix.translation(PHONE_FROM_CENTER, PHONE_FROM_GROUND, PHONE_OFF_FROM_CENTER).multiplied(Orientation.getRotationMatrix(AxesReference.EXTRINSIC,AxesOrder.XYZ, AngleUnit.DEGREES, ));
@@ -75,9 +76,11 @@ public class Vuforia extends LinearOpMode{
 
         while (opModeIsActive()){
             for (VuforiaTrackable Targets : Beacon_Targets){
+
                 telemetry.addData(Targets.getName(), ((VuforiaTrackableDefaultListener)Targets.getListener()).isVisible() ? "Visible": OpenGLMatrix robotLocationTransform = ((VuforiaTrackableDefaultListener)Targets.getListener()).getUpdatedRobotLocation();
-                if (
+                if ()
             }
+
 
 
         }
