@@ -44,6 +44,7 @@ public class Auton extends LinearOpMode{
         runtime.reset();
 
         while (opModeIsActive()){
+
             telemetry.addData("HAVE FUN!", "><");
 
             CrabBot_Hardware.Center.setPower(.6);

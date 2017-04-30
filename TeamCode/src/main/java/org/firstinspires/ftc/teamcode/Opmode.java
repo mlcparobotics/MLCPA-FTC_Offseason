@@ -37,7 +37,9 @@ public class Opmode extends LinearOpMode {
 
 
         while (opModeIsActive()){
-
+            telemetry.addData("HAVE FUN!", "><");
+            telemetry.update();
+            CrabBot.TeleopDrive();
             if (gamepad1.dpad_down){
                 this.telemetry.addData("Camera View:", up.cameraMonitorFeedback);
                 //telemetry.addData("Camera View", VuforiaLocalizer.CameraDirection.BACK);
@@ -45,10 +47,8 @@ public class Opmode extends LinearOpMode {
                 telemetry.addData("BYE BYE", Vuforia);
             }
 
-            telemetry.addData("HAVE FUN!", "><");
-            telemetry.update();
-            CrabBot.TeleopDrive();
-            }
+
+        }
         }
     }
 }
