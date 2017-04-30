@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 /**
- * Created by LOCKESST on 4/27/2017.
+ * Created by ANDRES SALAS
  */
 
 public class Hard_CrabBot {

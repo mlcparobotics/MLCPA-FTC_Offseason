@@ -25,33 +25,20 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 public class TrackingSoftware extends LinearOpMode{
     OpenGLMatrix LastKnownLocation;
     OpenGLMatrix PhoneLocation;
-    VuforiaLocalizer Vuforia;
+    public VuforiaLocalizer Vuforia;
     OpenGLMatrix RobotLocationTransform;
     //Attempt at creating a constructor(?I think thats what they're called) so I could call this when needed
     //static final VuforiaLocalizer.CameraDirection CAMERDIREC = VuforiaLocalizer.CameraDirection.BACK;
     public static final String TAG = "Vuforia";
+    private static final int MAX_TARGETS = 4;
+    Hard_CrabBot CrabBot = new Hard_CrabBot();
 
 
     @Override
     public void runOpMode() throws InterruptedException{
         waitForStart();
-        //Setting Info for the motors on the robot
-        DcMotor FrontLeft = null;
-        DcMotor FrontRight = null;
-        DcMotor BackLeft = null;
-        DcMotor BackRight = null;
-        DcMotor Center = null;
-        DcMotor BeaconPusher = null;
+        CrabBot.Standard_Hardware_declaration(this);
 
-        FrontLeft = hardwareMap.dcMotor.get("FrontLeft0");
-        FrontRight = hardwareMap.dcMotor.get("FrontRight");
-        BackLeft = hardwareMap.dcMotor.get("BackLeft");
-        BackRight = hardwareMap.dcMotor.get("BackRight");
-        Center = hardwareMap.dcMotor.get("Center");
-        BeaconPusher = hardwareMap.dcMotor.get("BeaconPusher");
-
-        FrontRight.setDirection(DcMotorSimple.Direction.REVERSE);
-        BackRight.setDirection(DcMotorSimple.Direction.REVERSE);
 
 
 
@@ -109,14 +96,6 @@ public class TrackingSoftware extends LinearOpMode{
         BackLeft.setPower(.25);
         BackRight.setPower(.25);
 */
-        Center.setPower(.5);
-        telemetry.addData("Press Start To Begin", "><");
-        telemetry.update();
-
-        while (opModeIsActive() && Wheels.getRawPose() == null){
-            idle();
-        }
-        Center.setPower(0);
 
 
 /*
